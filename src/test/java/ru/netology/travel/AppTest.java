@@ -59,7 +59,7 @@ public class AppTest {
     @Test
     void validateCardNumber() {
         var order = new AppPage();
-        order.manualDebitTour("", "01", "23", "HALVA CARD", "457");
+        order.manualDebitTour("", "05", "23", "SBER CARD", "455");
         order.validateErrors(true, false, false, false, false);
         order.manualDebitTour("4444444444444441", "", "", "", "");
         order.validateErrors(false, false, false, false, false);
@@ -70,16 +70,16 @@ public class AppTest {
     @Test
     void wrongSymbolsCardNumber() {
         var order = new AppPage();
-        order.manualDebitTour("abcdпрог!@#$)(*&", "01", "23", "HALVA CARD", "457");
+        order.manualDebitTour("abkate!@#$)(*&", "05", "23", "SBER CARD", "455");
         order.validateErrors(true, false, false, false, false);
     }
 
     @Test
     void validateMonth() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "", "23", "HALVA CARD", "457");
+        order.manualDebitTour("4444444444444441", "", "23", "SBER CARD", "455");
         order.validateErrors(false, true, false, false, false);
-        order.manualDebitTour("", "01", "", "", "");
+        order.manualDebitTour("", "05", "", "", "");
         order.validateErrors(false, false, false, false, false);
         order.verifySuccess();
         assertEquals("APPROVED", sqlGetters.getStatus(database));
@@ -88,21 +88,21 @@ public class AppTest {
     @Test
     void wrongSymbolsMonth() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "g%", "23", "HALVA CARD", "457");
+        order.manualDebitTour("4444444444444441", "g%", "23", "SBER CARD", "455");
         order.validateErrors(false, true, false, false, false);
     }
 
     @Test
     void zeroMonth() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "00", "23", "HALVA CARD", "457");
+        order.manualDebitTour("4444444444444441", "00", "23", "SBER CARD", "455");
         order.validateErrors(false, true, false, false, false);
     }
 
     @Test
     void validateYear() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "01", "", "HALVA CARD", "457");
+        order.manualDebitTour("4444444444444441", "05", "", "SBER CARD", "455");
         order.validateErrors(false, false, true, false, false);
         order.manualDebitTour("", "", "22", "", "");
         order.validateErrors(false, false, false, false, false);
@@ -113,16 +113,16 @@ public class AppTest {
     @Test
     void wrongSymbolsYear() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "01", "h@", "HALVA CARD", "457");
+        order.manualDebitTour("4444444444444441", "05", "h@", "SBER CARD", "455");
         order.validateErrors(false, false, true, false, false);
     }
 
     @Test
     void validateOwner() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "01", "23", "", "457");
+        order.manualDebitTour("4444444444444441", "05", "23", "", "455");
         order.validateErrors(false, false, false, true, false);
-        order.manualDebitTour("", "", "", "HALVA CARD", "");
+        order.manualDebitTour("", "", "", "SBER CARD", "");
         order.validateErrors(false, false, false, false, false);
         order.verifySuccess();
         assertEquals("APPROVED", sqlGetters.getStatus(database));
@@ -131,16 +131,16 @@ public class AppTest {
     @Test
     void wrongSymbolsOwner() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "01", "23", "213$@#", "457");
+        order.manualDebitTour("4444444444444441", "05", "23", "555$@#", "455");
         order.validateErrors(false, false, false, true, false);
     }
 
     @Test
     void validateCode() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "01", "23", "HALVA CARD", "");
+        order.manualDebitTour("4444444444444441", "05", "23", "SBER CARD", "");
         order.validateErrors(false, false, false, false, true);
-        order.manualDebitTour("", "", "", "", "457");
+        order.manualDebitTour("", "", "", "", "455");
         order.validateErrors(false, false, false, false, false);
         order.verifySuccess();
         assertEquals("APPROVED", sqlGetters.getStatus(database));
@@ -149,9 +149,9 @@ public class AppTest {
     @Test
     void validateCodeWithBugs() {
         var order = new AppPage();
-        order.manualDebitTour("4444444444444441", "01", "23", "HALVA CARD", "");
+        order.manualDebitTour("4444444444444441", "05", "23", "SBER CARD", "");
         order.validateErrors(false, false, false, true, true);
-        order.manualDebitTour("", "", "", "", "457");
+        order.manualDebitTour("", "", "", "", "455");
         order.validateErrors(false, false, false, true, false);
         order.verifySuccess();
         assertEquals("APPROVED", sqlGetters.getStatus(database));
